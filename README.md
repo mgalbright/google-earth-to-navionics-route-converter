@@ -55,7 +55,22 @@ file with the Navionics app.  This will load the route.
 
 You can also convert a whole folder of route files like this:
 ```shell
-for f in ./data/*.kml; do python convert_to_nav.py -i "$f" -o "${f%.kml}.gpx"; done
+for f in data/*.kml; do python convert_to_nav.py -i "$f" -o "${f%.kml}.gpx"; done
+```
+
+### Sample files
+The [samples](samples) folder contains a sample .kml file with a path exported from google earth, along with the converted gpx file. You can use these for testing.
+
+### Testing (optional)
+You can unit test the script on your system if you install pytest and xmldiff:
+```shell
+pip install pytest xmldiff
+```
+
+Run the test to convert the sample .kml file and make sure it matches the 
+sample .gpx file:
+```shell
+pytest test.py
 ```
 
 ## References
