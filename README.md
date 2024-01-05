@@ -1,10 +1,11 @@
-# Google Earth paths to Navionics routes converter
+# Google Earth path to Navionics route converter
 
 ## About
 
 ### TLDR 
 A simple python script to convert a travel route saved with the
-[Google Earth Desktop app](https://earth.google.com/intl/earth/versions/#download-pro) into the file format used by the 
+[Google Earth Pro on Desktop app](https://www.google.com/earth/about/versions/)
+into the file format used by the 
 [Navionics Boating App](https://www.navionics.com/usa/apps/navionics-boating). 
 This allows you to load the route in the Navionics app.
 
