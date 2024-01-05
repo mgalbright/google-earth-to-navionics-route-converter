@@ -38,6 +38,11 @@ The python script in this repo can do the conversion through a two step process:
     ```
 1. Email the .gpx file to your device with the navionics app and open the .gpx file with the navionics app.  This will load the route
 
+You can also batch convert files like this:
+```shell
+for f in *.kml; do python convert_to_nav.py -i "$f" -o "${f%.kml}.gpx"; done
+```
+
 ## References
 1. Instructions for importing routes into Navionics:   
 [How to Export and Import GPX Files withe Navionics Boating App](https://www.youtube.com/watch?v=FEUY-VJNZ_A)
