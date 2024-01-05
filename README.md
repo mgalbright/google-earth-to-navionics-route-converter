@@ -9,7 +9,7 @@ into the file format used by the
 [Navionics Boating App](https://www.navionics.com/usa/apps/navionics-boating). 
 This allows you to load the route in the Navionics app.  
 
-This script is also extensible to support additional route file formats beyond kml.
+This script may be extensible to support additional route file formats used by other apps.
 As a proof of concept, I added expermental support for routes saved in
 .gpx files, though that has been only lightly tested.
 
@@ -86,16 +86,19 @@ The basic procedure of the this script is to:
 1. Convert the input file to geojson file with gpsbabel, then  
 1. Save gps points from the geojson file into navionics file format  
 
-This should in theory work for many file formats besides .kml -- namely, file formats that can store a route and which gpsbabel can convert to a geojson file. (See [GPS Babel file capabilities](https://www.gpsbabel.org/capabilities.html))
+This should in theory work for many file formats besides .kml -- namely, file formats that can store a route and which gpsbabel can convert to a geojson file. (See [GPS Babel file capabilities](https://www.gpsbabel.org/capabilities.html).)
 One example is a route stored in a standard gpx file format (not the 
 custom navionics verison).
 
 Hence, I added support for the input file being a standard-format .gpx file
 (in addition to .kml). I tested the feature by first converting a kml file to 
-gpx with gpsbabel, then feeding that gpx file to this program as the input file. 
-A valid navionics file was generated.  I have not tested it on gpx
-files created by other apps or other converters, since that's beyond my use
-case, so there could be errors that require fixes. 
+gpx with gpsbabel, then feeding that gpx file to this program as the input file.
+I converted it to a valid navionics file with the familiar command:
+```shell
+python convert_to_nav.py -i inputfile.gpx -o outputfile.gpx
+```
+(Note the input file was a gpx file in standard format, while the output was
+in the navionics gpx format.)
 
 You can add additional file formats by modifing the `SUPPORTED_BABEL_FORMATS`
 variable in the [convert_to_nav.py](convert_to_nav.py) script.
