@@ -54,7 +54,7 @@ The python script in this repo can do the conversion through a two step process:
 1. Email the .gpx file to your device with the Navionics app and open the .gpx 
 file with the Navionics app.  This will load the route.
 
-You can also convert a whole folder of route files like this:
+You can also convert a whole folder ./data of route files like this:
 ```shell
 for f in data/*.kml; do python convert_to_nav.py -i "$f" -o "${f%.kml}.gpx"; done
 ```
