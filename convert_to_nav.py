@@ -12,8 +12,22 @@ TMP_FILE = 'tmp.json'
 NAV_FILE_TEMPLATE = \
     """<?xml version="1.0" encoding="UTF-8" ?><gpx xmlns="http://www.topografix.com/GPX/1/1" version="1.1" creator="Navionics Boating App"><metadata><link href="http://www.navionics.com" /></metadata><rte><name>{{ROUTE_NAME}}</name><time>{{TIME_STAMP}}</time>{% for COORD in COORDS2D %}<rtept lat="{{'%0.6f'|format(COORD[1])}}" lon="{{'%0.6f'|format(COORD[0])}}" />{% endfor %}</rte></gpx>"""
 
-def convert_kml_to_geojson(input_file, temp_file):
-  result = subprocess.run(['gpsbabel', '-r', '-i', 'kml', '-f', input_file, '-o', 
+#Modify this to add support for additional file formats.  Files formats should
+#be supported by Babel and should support routes. For details see
+# https://www.gpsbabel.org/capabilities.html
+SUPPORTED_BABEL_FORMATS = {
+  ".kml" : "kml",                   
+  ".gpx" : "gpx"
+}
+
+def convert_route_file_to_geojson(input_file, temp_file):
+  file_ext = os.path.splitext(input_file)[1]
+  if file_ext not in SUPPORTED_BABEL_FORMATS.keys():
+    raise ValueError(f"Unsupported file format for input file. Supported extensions are: {SUPPORTED_BABEL_FORMATS.keys()}")
+  else:
+    input_format = SUPPORTED_BABEL_FORMATS[file_ext]
+    
+  result = subprocess.run(['gpsbabel', '-r', '-i', input_format, '-f', input_file, '-o', 
                            'geojson', '-F', temp_file], capture_output=True, 
                            text=True)
   print(result.stdout)
@@ -22,7 +36,7 @@ def convert_kml_to_geojson(input_file, temp_file):
 def convert_kml_file(input_file, output_file, temp_file):
   print("Calling program gpsbabel to process google earth kml file ...")
 
-  convert_kml_to_geojson(input_file, temp_file)
+  convert_route_file_to_geojson(input_file, temp_file)
 
   print("Loading processed data ...")
   with open(TMP_FILE) as f1:

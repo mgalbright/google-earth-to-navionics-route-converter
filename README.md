@@ -7,7 +7,11 @@ A simple python script to convert a travel route saved with the
 [Google Earth Pro on Desktop app](https://www.google.com/earth/about/versions/)
 into the file format used by the 
 [Navionics Boating App](https://www.navionics.com/usa/apps/navionics-boating). 
-This allows you to load the route in the Navionics app.
+This allows you to load the route in the Navionics app.  
+
+This script is also extensible to support additional route file formats beyond kml.
+As a proof of concept, I added expermental support for routes saved in
+.gpx files, though that has been only lightly tested.
 
 ### Background
 
@@ -74,8 +78,33 @@ sample .gpx file:
 pytest test.py
 ```
 
+## (Experimental) Converting other file formats besides .kml
+This script was written to convert google earth kml files to navionics files. However, it may be capable of converting other gps files with route data to navionics
+files.  As a proof of concept, I added experimental support for converting standard gpx files to navionics files.  (This is lightly tested, so it may experience errors on other file formats and require bug fixes.)
+
+The basic procedure of the this script is to:
+1. Convert the input file to geojson file with gpsbabel, then  
+1. Save gps points from the geojson file into navionics file format  
+
+This should in theory work for many file formats besides .kml -- namely, file formats that can store a route and which gpsbabel can convert to a geojson file. (See [GPS Babel file capabilities](https://www.gpsbabel.org/capabilities.html))
+One example is a route stored in a standard gpx file format (not the 
+custom navionics verison).
+
+Hence, I added support for the input file being a standard-format .gpx file
+(in addition to .kml). I tested the feature by first converting a kml file to 
+gpx with gpsbabel, then feeding that gpx file to this program as the input file. 
+A valid navionics file was generated.  I have not tested it on gpx
+files created by other apps or other converters, since that's beyond my use
+case, so there could be errors that require fixes. 
+
+You can add additional file formats by modifing the `SUPPORTED_BABEL_FORMATS`
+variable in the [convert_to_nav.py](convert_to_nav.py) script.
+
+
 ## References
 1. Instructions for importing routes into Navionics:   
 [How to Export and Import GPX Files withe Navionics Boating App](https://www.youtube.com/watch?v=FEUY-VJNZ_A)
 1. Documented problem with importing GPX files in navionics:  
 [Navionics Boating App GPX Track File Corrupted or Invalid](https://www.youtube.com/watch?v=OotuLHvwBCc)
+1. File formats supported by gpsbabel: 
+[GPS Babel file capabilities](https://www.gpsbabel.org/capabilities.html)
