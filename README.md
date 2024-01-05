@@ -1,35 +1,34 @@
-# Convert Google Earth paths to Navionics routes
+# Google Earth paths to Navionics routes converter
 
 ## About
 
 ### TLDR 
-This script converts a travel route from the Google Earth Desktop app (saved as 
-a .kml file) into the file format used by the Navionics Boating App. You can 
-then load the route in the Navionics app.
+A simple python script to convert a travel route saved with the
+[Google Earth Desktop app](https://earth.google.com/intl/earth/versions/#download-pro) into the file format used by the 
+[Navionics Boating App](https://www.navionics.com/usa/apps/navionics-boating). 
+This allows you to load the route in the Navionics app.
 
 ### Background
 
 With the Google Earth Desktop app, you can create travel routes (which consist 
 of sequences of gps coordinates) by clicking points on the map using the "Path" 
-tool. You can then save your routes as .kml files. It would be convenient to 
-load your travel routes into the Navionics Boating App.  To do that, you need to 
-convert the kml file to the Navionics file format.
+tool. You can then save your routes as .kml files. If you want to load those routes into the Navionics app, you need to 
+convert the kml file into the Navionics file format.
 
-The Navionics App uses a propriety version of the .gpx file format.  Hence, if
- you use an off-the-shelf program (like an online converter, or 
+The Navionics App uses a customized version of the .gpx file format for routes. 
+Hence, if  you use an off-the-shelf program (like an online converter, or 
  [gpsbabel](https://www.gpsbabel.org/)) to convert the .kml file to .gpx, 
- Navionics will fail to import the file, since Navionics expects its propriety 
- .gpx format.
-(This was explained in a Youtube video by 
-[The Outdoor News with Rex](https://www.youtube.com/watch?v=OotuLHvwBCc).)  
-Hence, you need to get the data into the propietary format for the import to 
-work.
+ Navionics will fail to import the file, since Navionics expects its custom 
+ .gpx format.  (This was explained in a Youtube video by 
+[The Outdoor News with Rex](https://www.youtube.com/watch?v=OotuLHvwBCc). 
+Interestingly, the ActiveCaptain app - also owned by Garmin - can import 
+standard .gpx files.) Hence, you need to write the data to a file using the 
+Navionics format.
 
 The python script in this repo can do the conversion through a two step process:
 1. Use the gpsbabel program (free) to convert the .kml file to a geojson 
-(temporary) file.
-1. Load the gps coordinates from the geojson file and write them into a 
-Navionics-formatted file.
+(temporary) file. (This makes it trivially easy to read the gps coordinates.)
+1. Write the gps coordinates into a Navionics-formatted .gpx route file.
 
 ## Instructions
 
@@ -45,18 +44,18 @@ Navionics-formatted file.
     ```
 
 ### Conversion
-(Tested on mac only)
+(Tested on mac only, but I expect it work on any *nix distro.)
 1. Save your google earth path as a kml file.
 1. Convert the kml file to a Navionics file using this script:
     ```shell
     python convert_to_nav.py -i googleearthroute.kml -o navionicsroute.gpx
     ```
-1. Email the .gpx file to your device with the navionics app and open the .gpx 
-file with the navionics app.  This will load the route.
+1. Email the .gpx file to your device with the Navionics app and open the .gpx 
+file with the Navionics app.  This will load the route.
 
-You can also batch convert files like this:
+You can also convert a whole folder of route files like this:
 ```shell
-for f in *.kml; do python convert_to_nav.py -i "$f" -o "${f%.kml}.gpx"; done
+for f in ./data/*.kml; do python convert_to_nav.py -i "$f" -o "${f%.kml}.gpx"; done
 ```
 
 ## References
