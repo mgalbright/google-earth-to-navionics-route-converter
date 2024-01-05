@@ -44,7 +44,7 @@ The python script in this repo can do the conversion through a two step process:
     ```
 
 ### Conversion
-(Tested on mac only, but I expect it work on any *nix distro.)
+(Tested on mac only, but I expect it should work on any *nix distro.)
 1. Save your google earth path as a kml file.
 1. Convert the kml file to a Navionics file using this script:
     ```shell
