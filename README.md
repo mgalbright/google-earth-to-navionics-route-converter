@@ -10,7 +10,7 @@ into the file format used by the
 This allows you to load the route in the Navionics app.  
 
 This script may be extensible to support additional route file formats used by other apps.
-As a proof of concept, I added expermental support for routes saved in
+As a proof of concept, I added experimental support for routes saved in
 .gpx files, though that has been only lightly tested.
 
 ### Background
